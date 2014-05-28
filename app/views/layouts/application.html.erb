@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PmTool</title>
+  <title>PM Tool</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <header>
+    <h1>Project Management Tool</h1>
   <nav>
     <%= link_to "Home", root_path %>
     <%= link_to "About", about_path %>
+    <%= link_to "Projects Index", projects_path %>
+    <%= link_to "Tasks Index", tasks_path %>
   </nav>  
+  <hr>
+  </header>
 
-<%= yield %>
+  <%= flash[:notice] %>
+  <%= flash[:alert] %>
+
+  <%= yield %>
 
 </body>
 </html>
