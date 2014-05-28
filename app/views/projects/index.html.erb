@@ -1,0 +1,11 @@
+<h1>Projects Index</h1>
+<br>
+<%= link_to "Create New Project", new_project_path %>
+<br>
+<% @projects.each do |project| %>
+  <h2><%= link_to project.title, project %></h2>
+  <p><%= project.description %></p>
+  <p>Due on: <%= project.due_date %></p>
+  <br>
+  <hr>
+<% end %>
