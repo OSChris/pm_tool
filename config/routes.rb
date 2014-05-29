@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   resources :projects
   resources :tasks
 
-  root 'home#home'
+  root 'projects#index'
 
   get 'home' => 'home#home'
   get 'about' => 'home#about'
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

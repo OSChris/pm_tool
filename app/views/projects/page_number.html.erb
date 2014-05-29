@@ -9,15 +9,10 @@
 </div>
 <%= link_to "Create New Project", new_project_path %>
 <br>
-<% @projects.limit(10).each do |project| %>
+<% @projects.each do |project| %>
   <h2><%= link_to project.title, project %></h2>
   <p><%= project.description %></p>
   <p>Due on: <%= project.due_date %></p>
   <br>
   <hr>
-<% end %>
-
-<% if @total_projects.count > 10 %>
-  <%= link_to "Previous Page", projects_path(:page => previous_page(@page), :pages => @pages) unless @page - 1 < 0 %>
-  <%= link_to "Next Page", projects_path(:page => next_page(@page, @pages), :pages => @pages) unless @page + 1 > @pages - 1 %>
 <% end %>

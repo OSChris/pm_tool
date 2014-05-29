@@ -4,7 +4,23 @@ class ProjectsController < ApplicationController
 
 
   def index
-    @projects = Project.all
+    if params[:page].to_i > 0
+      @page = params[:page].to_i
+    else
+      @page = 0
+    end
+    @pages=
+    if Project.count % 10 == 0
+      (Project.count) / 10 
+    else
+      ((Project.count) / 10) + 1
+    end
+    @total_projects = Project.all
+    @projects = Project.search(params[:search]).offset(@page.to_i * 10)
+  end
+
+  def page_flip
+    increment_page
   end
 
   def show
@@ -42,6 +58,10 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  def increment_page
+    @page += 1 if @page < @pages
+  end
 
   def find_project
     @project = Project.find(params[:id])

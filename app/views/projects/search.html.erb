@@ -1,0 +1,6 @@
+<% @search_matches.each do |s| %>
+  <h1><%= link_to s.title, s %></h1>
+  <p><%= s.description %></p>
+  <p><%= s.due_date %></p>
+  <hr>
+<% end %>
