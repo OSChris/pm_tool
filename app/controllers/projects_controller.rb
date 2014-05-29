@@ -25,6 +25,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    session[:return_to] ||= request.referer
   end
 
   def new

@@ -1,23 +1,41 @@
-<h1>Projects Index</h1>
+
+<h1 class="col-xs-8 col-xs-offset-2 col-md-6 col-md-offset-4">Projects Index</h1>
 <div>
-<%= form_tag projects_path, :method => 'get' do %>
-  <p>
-    <%= text_field_tag :search, params[:search] %>
-    <%= submit_tag "Search", :name => nil %>
-  </p>
-<% end %>
+
+  <div class="row">
+    <div class="col-xs-9 col-md-6 col-md-offset-3">
+      <%= form_tag projects_path, method: 'get' do %>
+        <%= text_field_tag :search, params[:search], class: "form-control" %>
+    </div>
+    <div class="col-xs-3 col-md-3">
+        <%= submit_tag "Search", name: nil, class: "btn btn-info" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row getaway">
+    <div class="col-md-2 col-md-offset-2 col-xs-offset-3 col-xs-6">
+      <%= link_to "Create New Project", new_project_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+      <% @projects.limit(10).each do |project| %>
+        <div class="well">
+          <h2><%= link_to project.title, project %></h2>
+          <p><%= project.description %></p>
+          <p>Due on: <%= project.due_date %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
 </div>
-<%= link_to "Create New Project", new_project_path %>
-<br>
-<% @projects.limit(10).each do |project| %>
-  <h2><%= link_to project.title, project %></h2>
-  <p><%= project.description %></p>
-  <p>Due on: <%= project.due_date %></p>
-  <br>
-  <hr>
-<% end %>
 
 <% if more_pages %>
-  <%= link_to "Previous Page", projects_path(:page => previous_page(@page), :pages => @pages) unless hide_previous %>
-  <%= link_to "Next Page", projects_path(:page => next_page(@page, @pages), :pages => @pages) unless hide_next %>
+<ul class="pager">
+  <li><%= link_to "Previous Page".html_safe, projects_path(:page => previous_page(@page), :pages => @pages) unless hide_previous %></li>
+  <li><%= link_to "Next Page".html_safe, projects_path(:page => next_page(@page, @pages), :pages => @pages) unless hide_next %></li>
+</ul>
 <% end %>
