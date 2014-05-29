@@ -17,7 +17,7 @@
   <hr>
 <% end %>
 
-<% if @total_projects.count > 10 %>
-  <%= link_to "Previous Page", projects_path(:page => previous_page(@page), :pages => @pages) unless @page - 1 < 0 %>
-  <%= link_to "Next Page", projects_path(:page => next_page(@page, @pages), :pages => @pages) unless @page + 1 > @pages - 1 %>
+<% if more_pages %>
+  <%= link_to "Previous Page", projects_path(:page => previous_page(@page), :pages => @pages) unless hide_previous %>
+  <%= link_to "Next Page", projects_path(:page => next_page(@page, @pages), :pages => @pages) unless hide_next %>
 <% end %>

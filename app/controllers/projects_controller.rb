@@ -15,8 +15,9 @@ class ProjectsController < ApplicationController
     else
       ((Project.count) / 10) + 1
     end
+
     @total_projects = Project.all
-    @projects = Project.search(params[:search]).offset(@page.to_i * 10)
+    @projects = Project.search(params[:search]).offset(fancy_offset)
   end
 
   def page_flip
@@ -59,8 +60,8 @@ class ProjectsController < ApplicationController
 
   private
 
-  def increment_page
-    @page += 1 if @page < @pages
+  def fancy_offset
+    @page.to_i * 10
   end
 
   def find_project
