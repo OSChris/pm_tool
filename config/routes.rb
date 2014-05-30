@@ -3,11 +3,13 @@ Rails.application.routes.draw do
   resources :projects
   resources :tasks
 
+  get 'projects/:id/upvote' => 'projects#upvote'
+  get 'projects/:id/downvote' => 'projects#downvote'
+
   root 'projects#index'
 
   get 'home' => 'home#home'
   get 'about' => 'home#about'
-
 
 
   # The priority is based upon order of creation: first created -> highest priority.

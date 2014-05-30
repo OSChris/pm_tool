@@ -27,4 +27,6 @@ module ProjectsHelper
   def fancy_offset
     @page.to_i * 10
   end
+
+  
 end

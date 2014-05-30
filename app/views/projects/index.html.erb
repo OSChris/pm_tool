@@ -22,10 +22,17 @@
   <div class="row">
     <div class="col-xs-12 col-md-8 col-md-offset-2">
       <% @projects.limit(10).each do |project| %>
-        <div class="well">
-          <h2><%= link_to project.title, project %></h2>
-          <p><%= project.description %></p>
-          <p>Due on: <%= project.due_date %></p>
+        <div class="row well">
+          <div>
+            <%= link_to "<i class='glyphicon glyphicon-arrow-up'></i>".html_safe, { action: "upvote", id: project.id } %>
+            <%= link_to "<i class='glyphicon glyphicon-arrow-down'></i>".html_safe, { action: "downvote", id: project.id } %>
+            <%= project.vote.score %>
+          </div>
+          <div>
+            <h2><%= link_to project.title, project %></h2>
+            <p><%= project.description %></p>
+            <p>Due on: <%= project.due_date %></p>
+          </div>
         </div>
       <% end %>
     </div>

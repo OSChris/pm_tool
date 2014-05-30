@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
 
-  before_action :find_project, only: [:show, :edit, :update, :destroy]
+  before_action :find_project, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
 
 
   def index
@@ -16,12 +16,7 @@ class ProjectsController < ApplicationController
       ((Project.count) / 10) + 1
     end
 
-    @total_projects = Project.all
     @projects = Project.search(params[:search]).offset(fancy_offset)
-  end
-
-  def page_flip
-    increment_page
   end
 
   def show
@@ -35,6 +30,7 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     if @project.save
+      @project.vote = Vote.new
       redirect_to projects_path, notice: "Project created successfully"
     else
       flash.now[:alert] = "Problem creating project"
@@ -59,6 +55,16 @@ class ProjectsController < ApplicationController
     redirect_to projects_path, notice: "Project deleted successfully"
   end
 
+  def upvote
+    @project.vote.up
+    redirect_to projects_path
+  end
+
+  def downvote
+    @project.vote.down
+    redirect_to projects_path
+  end
+
   private
 
   def fancy_offset
@@ -70,6 +76,7 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:title, :description, :due_date)
+    puts params.inspect
+    params.require(:project).permit(:title, :description, :due_date, :votes)
   end
 end
