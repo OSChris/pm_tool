@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   
-  resources :projects
-  resources :tasks
+  resources :projects do 
+    resources :tasks
+  end
 
   get 'projects/:id/upvote' => 'projects#upvote'
   get 'projects/:id/downvote' => 'projects#downvote'

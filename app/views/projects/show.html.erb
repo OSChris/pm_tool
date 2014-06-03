@@ -6,6 +6,32 @@
 <br>
 
 <p>Due on: <%= @project.due_date %></p>
-<br>
+
+<hr>
 <%= link_to "Edit", edit_project_path, class: "btn btn-info" %>
 <%= link_to "Destroy", @project, method: :delete, data: { confirm: "Are you sure you want to delete this project?" }, class: "btn btn-danger" %>
+<hr>
+
+<%= form_for [@project, @task] do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title, class: "form-control"%>
+  <%= f.label :due_date %>
+  <%= f.text_field :due_date, class: "form-control"%>
+  <%= f.submit class: "btn btn-success" %>
+<% end %>
+
+<hr>
+<% @tasks.each do |task| %>
+  <strong><%= task.title %></strong>
+  <br>
+  Due on: <%= task.due_date %>
+
+  <% if task.status %>
+    <%= button_to "Done", [@project, task, task: {status: false}], method: :patch, data: { confirm: "Are you sure you want to mark this not done?"}, class: "btn btn-sm btn-success" %>
+  <% else %>
+    <%= button_to "Not Done", [@project, task, task: {status: true}], method: :patch, data: { confirm: "Are you sure you want to mark this done?"}, class: "btn btn-sm btn-default" %>
+  <% end %>
+
+  <%= button_to "Destroy", [@project, task], method: :delete, data: { confirm: "Are you sure you want to delete this project?" }, class: "btn btn-xs btn-danger" %>
+  <hr>
+<% end %>

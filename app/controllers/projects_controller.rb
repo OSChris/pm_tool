@@ -9,6 +9,8 @@ class ProjectsController < ApplicationController
 
   def show
     session[:return_to] ||= request.referer
+    @tasks = @project.tasks.order("status ASC")
+    @task = Task.new
   end
 
   def new
