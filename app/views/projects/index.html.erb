@@ -21,12 +21,12 @@
   
   <div class="row">
     <div class="col-xs-12 col-md-8 col-md-offset-2">
-      <% @projects.limit(10).each do |project| %>
+      <% @projects.each do |project| %>
         <div class="row well">
           <div>
-            <%= link_to "<i class='glyphicon glyphicon-arrow-up'></i>".html_safe, { action: "upvote", id: project.id } %>
-            <%= link_to "<i class='glyphicon glyphicon-arrow-down'></i>".html_safe, { action: "downvote", id: project.id } %>
+            <%= link_to "<i class='glyphicon glyphicon-arrow-up'></i>".html_safe, { action: "upvote", id: project.id, page: params[:page] } %>
             <%= project.vote.score %>
+            <%= link_to "<i class='glyphicon glyphicon-arrow-down'></i>".html_safe, { action: "downvote", id: project.id, page: params[:page] } %>
           </div>
           <div>
             <h2><%= link_to project.title, project %></h2>
@@ -39,10 +39,6 @@
   </div>
 
 </div>
-
-<% if more_pages %>
-<ul class="pager">
-  <li><%= link_to "Previous Page".html_safe, projects_path(:page => previous_page(@page), :pages => @pages) unless hide_previous %></li>
-  <li><%= link_to "Next Page".html_safe, projects_path(:page => next_page(@page, @pages), :pages => @pages) unless hide_next %></li>
-</ul>
-<% end %>
+<div class="col-md-offset-4 col-md-6">
+  <%= will_paginate @projects, renderer: BootstrapPagination::Rails %>
+</div>

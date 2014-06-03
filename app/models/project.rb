@@ -3,15 +3,17 @@ class Project < ActiveRecord::Base
   validates :title, presence: true, uniqueness: true
   has_one :vote
 
+  has_many :tasks
+
   
 
   private
 
   def self.search(search)
     if search
-      where(['title LIKE ? OR description LIKE ?', "%#{search}%", "%#{search}%"])
+      joins(:vote).where(['title LIKE ? OR description LIKE ?', "%#{search}%", "%#{search}%"]).order("(votes.upvotes - votes.downvotes) DESC")
     else
-      all
+      all.joins(:vote).order("(votes.upvotes - votes.downvotes) DESC")
     end
   end
 

@@ -4,19 +4,7 @@ class ProjectsController < ApplicationController
 
 
   def index
-    if params[:page].to_i > 0
-      @page = params[:page].to_i
-    else
-      @page = 0
-    end
-    @pages=
-    if Project.count % 10 == 0
-      (Project.count) / 10 
-    else
-      ((Project.count) / 10) + 1
-    end
-
-    @projects = Project.search(params[:search]).offset(fancy_offset)
+    @projects = Project.paginate(page: params[:page], per_page: 10).search(params[:search])
   end
 
   def show
@@ -57,19 +45,15 @@ class ProjectsController < ApplicationController
 
   def upvote
     @project.vote.up
-    redirect_to projects_path
+    redirect_to projects_path(page: params[:page])
   end
 
   def downvote
     @project.vote.down
-    redirect_to projects_path
+    redirect_to projects_path(page: params[:page])
   end
 
   private
-
-  def fancy_offset
-    @page.to_i * 10
-  end
 
   def find_project
     @project = Project.find(params[:id])
