@@ -1,0 +1,26 @@
+%h1.col-xs-8.col-xs-offset-2.col-md-6.col-md-offset-4 Projects Index
+%div
+  .row
+    .col-xs-9.col-md-6.col-md-offset-3
+      = form_tag projects_path, method: 'get' do
+        = text_field_tag :search, params[:search], class: "form-control"
+    .col-xs-3.col-md-3
+      = submit_tag "Search", name: nil, class: "btn btn-info"
+  .row.getaway
+    .col-md-2.col-md-offset-2.col-xs-offset-3.col-xs-6
+      = link_to "Create New Project", new_project_path, class: "btn btn-primary"
+  .row
+    .col-xs-12.col-md-8.col-md-offset-2
+      - @projects.each do |project|
+        .row.well
+          %div
+            = link_to "<i class='glyphicon glyphicon-arrow-up'></i>".html_safe, { action: "upvote", id: project.id, page: params[:page] }
+            = project.vote.score
+            = link_to "<i class='glyphicon glyphicon-arrow-down'></i>".html_safe, { action: "downvote", id: project.id, page: params[:page] }
+          %div
+            %h2= link_to project.title, project
+            %p= project.description
+            %p
+              Due on: #{project.due_date}
+.col-md-offset-4.col-md-6
+  = will_paginate @projects, renderer: BootstrapPagination::Rails
