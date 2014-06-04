@@ -1,5 +1,4 @@
-<br>
-<%= link_to "Back", session.delete(:return_to) %>
+<%= link_to "Discuss This Project" , project_discussions_path(@project), class: "btn btn-info" %>
 <hr>
 <h1><%= @project.title %></h1>
 <p><%= @project.description %></p>

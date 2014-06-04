@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
-  
+
   resources :projects do 
     resources :tasks
+    resources :discussions
+  end
+
+  resources :discussions, only: [] do 
+    resources :comments, except: [:show]
   end
 
   get 'projects/:id/upvote' => 'projects#upvote'
