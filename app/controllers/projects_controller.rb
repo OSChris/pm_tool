@@ -9,7 +9,8 @@ class ProjectsController < ApplicationController
 
   def show
     session[:return_to] ||= request.referer
-    @tasks = @project.tasks.order("status ASC")
+    @done = @project.tasks.where("status = true")
+    @notdone = @project.tasks.where("status = false")
     @task = Task.new
   end
 

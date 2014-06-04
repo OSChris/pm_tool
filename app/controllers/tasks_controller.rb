@@ -17,12 +17,10 @@ class TasksController < ApplicationController
   def update
     @project = Project.find(params[:project_id])
     @task = @project.tasks.find(params[:id])
-    
     if @task.update_attributes(task_params)
       redirect_to @project, notice: "Task successfully updated"
     else
-      flash.now[:alert] = "Problem updating task"
-      render "projects/show"
+      redirect_to @project, alert: "Problem updating task."
     end
   end
 
@@ -40,7 +38,7 @@ class TasksController < ApplicationController
   ## end
 
   def task_params
-    params.require(:task).permit(:title, :due_date, :status)
+    params.require(:task).permit(:title, :body, :due_date, :status)
   end
 
 end
