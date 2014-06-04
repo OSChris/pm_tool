@@ -3,4 +3,5 @@
 <div class="well col-md-8 col-md-offset-2">
   <h1><%= @discussion.title %></h1>
   <p><%= simple_format @discussion.description %></p>
+  <%= button_to "Destroy",  project_discussions_path(@discussion), method: :delete, data: { confirm: "Are you sure you want to delete this discussion?" }, class: "btn btn-danger" %>
 </div>
