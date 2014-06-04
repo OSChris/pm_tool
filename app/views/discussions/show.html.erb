@@ -3,5 +3,19 @@
 <div class="well col-md-8 col-md-offset-2">
   <h1><%= @discussion.title %></h1>
   <p><%= simple_format @discussion.description %></p>
-  <%= button_to "Destroy",  project_discussions_path(@discussion), method: :delete, data: { confirm: "Are you sure you want to delete this discussion?" }, class: "btn btn-danger" %>
+  <%= link_to "Edit", edit_project_discussion_path(@project, @discussion), class: "btn btn-info getaway" %>
+  <%= button_to "Destroy",  [@project, @discussion], method: :delete, data: { confirm: "Are you sure you want to delete this discussion?" }, class: "btn btn-danger" %>
+  <hr>
+  <% @discussion.comments.each do |comment| %>
+    <%= simple_format comment.body %>
+    <div class="row getaway">
+      <%= link_to "Edit", edit_discussion_comment_path(@discussion, comment), class: "btn btn-xs btn-info" %>
+      <%= button_to "Destroy", [@discussion, comment], method: :delete, data: { confirm: "Delete comment?" }, class: "btn btn-danger btn-xs" %>
+    </div>
+    <hr>
+  <% end %>
+  <%= form_for [@discussion, @comment] do |f| %>
+    <%= f.text_area :body, class: "form-control" %>
+    <%= f.submit "Create Comment", class: "btn btn-warning getaway" %>
+  <% end %>
 </div>

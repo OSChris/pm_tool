@@ -1,11 +1,16 @@
 <%= link_to "Back to Project", project_path(@project), class: "btn btn-primary" %>
 <div class="clearfix"></div>
-<%= link_to "Create New Discussion", new_project_discussion_path(@project), class: "btn btn-success" %>
 <h1>Discussions for *<%= @project.title %>*</h1>
-
-<% @discussions.each do |discussion| %>
-  <div class="col-md-4 well cre8">
-    <h2><%= link_to discussion.title, project_discussion_path(@project, discussion) %></h2>
-    <p><%= discussion.description %></p>
-  </div> 
+<div class="row">
+  <%= link_to "Create New Discussion", new_project_discussion_path(@project), class: "btn btn-success getaway" %>
+</div>
+<% @discussions.each_slice(3) do |discussion_group| %>
+  <div class="row">
+    <% discussion_group.each do |discussion| %>
+      <div class="col-md-4 well cre8">
+        <h2><%= link_to discussion.title, project_discussion_path(@project, discussion) %></h2>
+        <p><%= truncate(discussion.description, length: 200) %></p>
+      </div> 
+    <% end %>
+  </div>
 <% end %>

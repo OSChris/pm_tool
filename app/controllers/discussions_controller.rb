@@ -1,13 +1,14 @@
 class DiscussionsController < ApplicationController
     
   before_action :find_project, only: [:show, :new, :index, :create, :edit, :update, :destroy]
+  before_action :find_discussion, only: [:show, :edit, :update, :destroy]
 
   def index
     @discussions = @project.discussions
   end
 
   def show
-    @discussion = Discussion.find(params[:id])
+    @comment = Comment.new
   end
 
   def new
@@ -16,7 +17,6 @@ class DiscussionsController < ApplicationController
 
   def create
     @discussion = @project.discussions.new(discussion_params)
-
     if @discussion.save
       redirect_to project_discussions_path(@project), notice: "Discussion successfully created!"
     else
@@ -26,12 +26,11 @@ class DiscussionsController < ApplicationController
   end
 
   def edit
-    @discussion = @project.discussions.find(params[:id])
+    
   end
 
   def update
-    @discussion = @project.discussions.find(params[:id])
-    if @discussion.update_params(discussion_params)
+    if @discussion.update_attributes(discussion_params)
       redirect_to project_discussions_path(@project), notice: "Discussion successfully updated!"
     else
       flash.now[:alert] = "Problem updating discussion"
@@ -40,7 +39,6 @@ class DiscussionsController < ApplicationController
   end
 
   def destroy
-    @discussion = @project.discussions.find(params[:id])
     @discussion.destroy
     redirect_to project_discussions_path, notice: "Discussion successfully destroyed."
   end
@@ -49,6 +47,10 @@ class DiscussionsController < ApplicationController
 
   def find_project
     @project = Project.find(params[:project_id])
+  end
+
+  def find_discussion
+    @discussion = @project.discussions.find(params[:id])
   end
 
   def discussion_params

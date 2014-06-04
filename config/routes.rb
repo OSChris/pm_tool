@@ -5,6 +5,10 @@ Rails.application.routes.draw do
     resources :discussions
   end
 
+  resources :discussions, only: [] do 
+    resources :comments, except: [:show]
+  end
+
   get 'projects/:id/upvote' => 'projects#upvote'
   get 'projects/:id/downvote' => 'projects#downvote'
 
