@@ -4,6 +4,7 @@ class Project < ActiveRecord::Base
   has_one :vote
 
   has_many :tasks
+  has_many :discussions
 
   
 

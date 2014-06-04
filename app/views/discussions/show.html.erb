@@ -1,0 +1,6 @@
+<%= link_to "Back to Discussions", project_discussions_path(@project), class: "btn btn-primary" %>
+<div class="clearfix"></div>
+<div class="well col-md-8 col-md-offset-2">
+  <h1><%= @discussion.title %></h1>
+  <p><%= simple_format @discussion.description %></p>
+</div>

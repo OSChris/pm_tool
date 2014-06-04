@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  
+
   resources :projects do 
     resources :tasks
+    resources :discussions
   end
 
   get 'projects/:id/upvote' => 'projects#upvote'
