@@ -1,5 +1,6 @@
 class DiscussionsController < ApplicationController
-    
+  
+  before_action :authenticate_user!, except: [:index, :show]  
   before_action :find_project, only: [:show, :new, :index, :create, :edit, :update, :destroy]
   before_action :find_discussion, only: [:show, :edit, :update, :destroy]
 
@@ -17,6 +18,7 @@ class DiscussionsController < ApplicationController
 
   def create
     @discussion = @project.discussions.new(discussion_params)
+    @discussion.user = current_user
     if @discussion.save
       redirect_to project_discussions_path(@project), notice: "Discussion successfully created!"
     else

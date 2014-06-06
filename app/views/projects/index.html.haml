@@ -19,7 +19,7 @@
             = link_to "<i class='glyphicon glyphicon-arrow-down'></i>".html_safe, { action: "downvote", id: project.id, page: params[:page] }
           %div
             %h2= link_to project.title, project
-            %p= project.description
+            %p= truncate(project.description, length: 500)
             %p
               Due on: #{project.due_date}
 .col-md-offset-4.col-md-6

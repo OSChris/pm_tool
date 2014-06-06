@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :find_project, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
 
 
@@ -20,6 +20,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(project_params)
+    @project.user = current_user
     if @project.save
       @project.vote = Vote.new
       redirect_to projects_path, notice: "Project created successfully"

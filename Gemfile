@@ -19,6 +19,9 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
+#Devise
+gem 'devise'
+
 #HAML
 gem 'haml-rails'
 

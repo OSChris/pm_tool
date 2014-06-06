@@ -1,8 +1,11 @@
 class TasksController < ApplicationController
   
+  before_action :authenticate_user!
+
   def create
     @project = Project.find(params[:project_id])
     @task = @project.tasks.new(task_params)
+    @task.user = current_user
     if @task.save
       redirect_to @project, notice: "Task successfully created"
     else

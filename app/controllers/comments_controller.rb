@@ -1,10 +1,12 @@
 class CommentsController < ApplicationController
   
+  before_action :authenticate_user!
   before_action :get_discussion
   before_action :get_comment, except: [:create]
 
   def create
     @comment = @discussion.comments.new(comment_params)
+    @comment.user = current_user
     if @comment.save
       redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment posted!"
     else
