@@ -18,17 +18,25 @@ class CommentsController < ApplicationController
   end
 
   def update
-    if @comment.update_attributes(comment_params)
-      redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment updated."
+    if current_user == @comment.user
+      if @comment.update_attributes(comment_params)
+        redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment updated."
+      else
+        flash.now[:alert] = "Problem editing comment"
+        render :edit
+      end
     else
-      flash.now[:alert] = "Problem editing comment"
-      render :edit
+      redirect_to project_discussion_path(@discussion.project, @discussion), alert: "That's not yours buster"
     end
   end
 
   def destroy
-    @comment.destroy
-    redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment deleted."
+    if current_user == @comment.user
+      @comment.destroy
+      redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment deleted."
+    else
+      redirect_to project_discussion_path(@discussion.project, @discussion), alert: "That's not yours buster"
+    end
   end
 
   private

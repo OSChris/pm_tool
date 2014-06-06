@@ -20,18 +20,26 @@ class TasksController < ApplicationController
   def update
     @project = Project.find(params[:project_id])
     @task = @project.tasks.find(params[:id])
-    if @task.update_attributes(task_params)
-      redirect_to @project, notice: "Task successfully updated"
+    if current_user == @task.user
+      if @task.update_attributes(task_params)
+        redirect_to @project, notice: "Task successfully updated"
+      else
+        redirect_to @project, alert: "Problem updating task."
+      end
     else
-      redirect_to @project, alert: "Problem updating task."
+      redirect_to @project, alert: "That's not yours buster >:("
     end
   end
 
   def destroy
     @project = Project.find(params[:project_id])
     @task = @project.tasks.find(params[:id])
-    @task.destroy
-    redirect_to @project, notice: "Task successfully deleted"
+    if current_user == @task.user
+      @task.destroy
+      redirect_to @project, notice: "Task successfully deleted"
+    else
+      redirect_to @project, alert: "That's not yours buster >:("
+    end
   end
 
   private

@@ -6,17 +6,19 @@
     %p= simple_format @discussion.description
     %hr
     by #{@discussion.user.name_display}
-    .pull-right  
-      = link_to "Edit", edit_project_discussion_path(@project, @discussion), class: "btn btn-info getaway"
-      = button_to "Destroy",  [@project, @discussion], method: :delete, data: { confirm: "Are you sure you want to delete this discussion?" }, class: "btn btn-danger"
+    .pull-right
+      -if @discussion.user == current_user  
+        = link_to "Edit", edit_project_discussion_path(@project, @discussion), class: "btn btn-info getaway"
+        = button_to "Destroy",  [@project, @discussion], method: :delete, data: { confirm: "Are you sure you want to delete this discussion?" }, class: "btn btn-danger"
   - @discussion.comments.each do |comment|
     .row.well
       = simple_format comment.body
       .pull-right
         Posted by #{comment.user.name_display}
         .clearfix
-        = link_to "Edit", edit_discussion_comment_path(@discussion, comment), class: "btn btn-xs btn-info"
-        = button_to "Destroy", [@discussion, comment], method: :delete, data: { confirm: "Delete comment?" }, class: "btn btn-danger btn-xs"
+          - if comment.user == current_user
+            = link_to "Edit", edit_discussion_comment_path(@discussion, comment), class: "btn btn-xs btn-info"
+            = button_to "Destroy", [@discussion, comment], method: :delete, data: { confirm: "Delete comment?" }, class: "btn btn-danger btn-xs"
   = form_for [@discussion, @comment] do |f|
     = f.text_area :body, class: "form-control"
     = f.submit "Create Comment", class: "btn btn-warning getaway"

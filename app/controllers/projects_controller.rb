@@ -34,17 +34,25 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    if @project.update_attributes(project_params)
-      redirect_to @project, notice: "Project updated successfully"
+    if current_user == @project.user
+      if @project.update_attributes(project_params)
+        redirect_to @project, notice: "Project updated successfully"
+      else
+        flash.now[:alert] = "Problem updating project"
+        render :edit
+      end
     else
-      flash.now[:alert] = "Problem updating project"
-      render :edit
+      redirect_to @project, alert: "That's not yours buster >:("
     end
   end
 
   def destroy
-    @project.destroy
-    redirect_to projects_path, notice: "Project deleted successfully"
+    if current_user == @project.user
+      @project.destroy
+      redirect_to projects_path, notice: "Project deleted successfully"
+    else
+      redirect_to @project, alert: "That's not yours buster >:("
+    end
   end
 
   def upvote

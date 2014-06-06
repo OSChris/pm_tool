@@ -32,17 +32,25 @@ class DiscussionsController < ApplicationController
   end
 
   def update
-    if @discussion.update_attributes(discussion_params)
-      redirect_to project_discussions_path(@project), notice: "Discussion successfully updated!"
+    if current_user == @discussion.user
+      if @discussion.update_attributes(discussion_params)
+        redirect_to project_discussions_path(@project), notice: "Discussion successfully updated!"
+      else
+        flash.now[:alert] = "Problem updating discussion"
+        render :edit
+      end
     else
-      flash.now[:alert] = "Problem updating discussion"
-      render :edit
+      redirect_to project_discussions_path(@project), alert: "That's not yours buster"
     end
   end
 
   def destroy
-    @discussion.destroy
-    redirect_to project_discussions_path, notice: "Discussion successfully destroyed."
+    if current_user == @discussion.user
+      @discussion.destroy
+      redirect_to project_discussions_path, notice: "Discussion successfully destroyed."
+    else
+      redirect_to project_discussions_path, alert: "That's not yours buster"
+    end
   end
 
   private
