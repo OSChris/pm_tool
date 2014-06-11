@@ -9,4 +9,6 @@
     - discussion_group.each do |discussion|
       .col-md-4.well.cre8
         %h2= link_to discussion.title, project_discussion_path(@project, discussion)
+        .row.getaway
+          %small By #{discussion.user.name_display}
         %p= truncate(discussion.description, length: 200)

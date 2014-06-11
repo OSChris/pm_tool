@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 
+
   devise_for :users
+  
   resources :projects do 
+    resources :project_members, only: [:create, :destroy]
     resources :tasks
     resources :discussions
   end

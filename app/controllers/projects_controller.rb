@@ -12,6 +12,8 @@ class ProjectsController < ApplicationController
     @done = @project.tasks.where("status = true")
     @notdone = @project.tasks.where("status = false")
     @task = Task.new
+    @users = User.all
+    @project_members = @project.project_members
   end
 
   def new

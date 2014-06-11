@@ -6,10 +6,15 @@ class Project < ActiveRecord::Base
   has_many :tasks
   has_many :discussions
 
+  has_many :project_members, dependent: :destroy
+  has_many :users, through: :project_members
+
   belongs_to :user
 
+  def project_member?(user)
+    project_members.exists?(user: user)
+  end
 
-  
 
   private
 

@@ -8,7 +8,8 @@
       = submit_tag "Search", name: nil, class: "btn btn-info"
   .row.getaway
     .col-md-2.col-md-offset-2.col-xs-offset-3.col-xs-6
-      = link_to "Create New Project", new_project_path, class: "btn btn-primary"
+      - if user_signed_in?
+        = link_to "Create New Project", new_project_path, class: "btn btn-primary"
   .row
     .col-xs-12.col-md-8.col-md-offset-2
       - @projects.each do |project|
@@ -18,7 +19,9 @@
             = project.vote.score
             = link_to "<i class='glyphicon glyphicon-arrow-down'></i>".html_safe, { action: "downvote", id: project.id, page: params[:page] }
           %div
-            %h2= link_to project.title, project
+            %h2 
+              #{link_to project.title, project}
+              %small By #{project.user.name_display}
             %p= truncate(project.description, length: 500)
             %p
               Due on: #{project.due_date}
