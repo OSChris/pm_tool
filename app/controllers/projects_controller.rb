@@ -9,12 +9,13 @@ class ProjectsController < ApplicationController
 
   def show
     session[:return_to] ||= request.referer
-    @done = @project.tasks.where("status = true")
-    @notdone = @project.tasks.where("status = false")
-    @task = Task.new
-    @users = User.all
+    @done            = @project.tasks.where("status = true")
+    @notdone         = @project.tasks.where("status = false")
+    @task            = Task.new
+    @users           = User.all
+    @tags            = @project.tags
     @project_members = @project.project_members
-    @favorite = @project.favorites.where(user: current_user).first
+    @favorite        = @project.favorites.where(user: current_user).first
   end
 
   def new
@@ -76,6 +77,6 @@ class ProjectsController < ApplicationController
 
   def project_params
     puts params.inspect
-    params.require(:project).permit(:title, :description, :due_date, :votes)
+    params.require(:project).permit(:title, :description, :due_date, :votes, {tag_ids: []})
   end
 end

@@ -1,7 +1,7 @@
 class Project < ActiveRecord::Base
 
   validates :title, presence: true, uniqueness: true
-  has_one :vote
+  has_one :vote, dependent: :destroy
 
   has_many :tasks
   has_many :discussions
@@ -11,6 +11,9 @@ class Project < ActiveRecord::Base
 
   has_many :favorites, dependent: :destroy
   has_many :users_favorited, through: :favorites, source: :user
+
+  has_many :taggers, dependent: :destroy
+  has_many :tags, through: :taggers
 
   belongs_to :user
 
@@ -27,9 +30,15 @@ class Project < ActiveRecord::Base
 
   def self.search(search)
     if search
-      joins(:vote).where(['title LIKE ? OR description LIKE ?', "%#{search}%", "%#{search}%"]).order("(votes.upvotes - votes.downvotes) DESC")
+      search = "%#{search}%"
+      includes(:tags).
+      references(:tags).
+      where('projects.title ILIKE ? OR projects.description ILIKE ? OR tags.name ILIKE ?',
+        search, search, search).
+      distinct('projects.id').
+      order("projects.updated_at DESC")
     else
-      all.joins(:vote).order("(votes.upvotes - votes.downvotes) DESC")
+      all.order("updated_at DESC")
     end
   end
 

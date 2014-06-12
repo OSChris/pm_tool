@@ -30,6 +30,12 @@
     - else
       =link_to "<i class='glyphicon glyphicon-star-empty'></i>".html_safe, [@project, Favorite.new], class: "btn btn-default", method: :post
   %hr/
+  .row
+    .col-md-1
+      %h4{style: "color: grey;"} Tags: 
+    - @tags.each do |tag|
+      .col-xs-2.col-sm-2.col-md-1.well{style: "font-size: 0.8em; text-align: center;"}
+        = tag.name
 - if user_signed_in?
   .row
     %h2 Create New Task
