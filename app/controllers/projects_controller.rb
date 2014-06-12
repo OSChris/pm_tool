@@ -14,6 +14,7 @@ class ProjectsController < ApplicationController
     @task = Task.new
     @users = User.all
     @project_members = @project.project_members
+    @favorite = @project.favorites.where(user: current_user).first
   end
 
   def new

@@ -9,10 +9,17 @@ class Project < ActiveRecord::Base
   has_many :project_members, dependent: :destroy
   has_many :users, through: :project_members
 
+  has_many :favorites, dependent: :destroy
+  has_many :users_favorited, through: :favorites, source: :user
+
   belongs_to :user
 
   def project_member?(user)
     project_members.exists?(user: user)
+  end
+
+  def favorited_by?(user)
+    favorites.exists?(user: user)
   end
 
 

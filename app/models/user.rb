@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
   has_many :project_members, dependent: :destroy
   has_many :member_of_projects, through: :project_members, source: :project
 
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_projects, through: :favorites, source: :project
+
   def name_display 
     if first_name || last_name
       ["#{first_name}", "#{last_name}"].map(&:capitalize).join(" ").squeeze(" ").strip

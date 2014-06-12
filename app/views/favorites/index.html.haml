@@ -1,0 +1,10 @@
+- if @favorites.length > 0
+  - @favorites.each do |fav|
+    .row
+      .col-md-8.well
+        %h2
+          = link_to fav.title, fav
+        %p
+          = truncate(fav.description, length: 200)
+- else
+  %h1 Looks like you don't have any favorites :(

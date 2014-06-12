@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
 
-
   devise_for :users
   
   resources :projects do 
+    resources :favorites,       only: [:create, :destroy]
     resources :project_members, only: [:create, :destroy]
     resources :tasks
     resources :discussions
@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   resources :discussions, only: [] do 
     resources :comments, except: [:show]
   end
+
+  get '/favorites' => 'favorites#index'
 
   get 'projects/:id/upvote' => 'projects#upvote'
   get 'projects/:id/downvote' => 'projects#downvote'
