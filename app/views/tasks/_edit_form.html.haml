@@ -1,0 +1,20 @@
+- if @task.errors.any? 
+  %ul
+    - @task.errors.full_messages.each do |err| 
+      %li= err
+
+
+= form_for @task, remote: true do |f| 
+  .form-group
+    = f.label :title 
+    = f.text_field :title, class: "form-control", id: "edit-task-title" 
+
+  .form-group
+    = f.label :body 
+    = f.text_area :body, class: "form-control", id: "edit-task-body"
+
+  .form-group
+    = f.label :due_date 
+    = f.text_field :due_date, class: "form-control", id: "edit-task-due-date"
+
+  = f.submit class: "btn btn-info" 

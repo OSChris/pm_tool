@@ -1,0 +1,8 @@
+- if @task.errors.any?
+  $(".task-errors").html("#{ j render partial: "/shared/standard_errors", locals: { object: @task } }");
+- else
+  $("#incompletes").append("#{ j render partial: "/tasks/task", locals: { task: @task } }");
+  $("#new-task-title").val("");
+  $("#new-task-body").val("");
+  $("#new-task-due-date").val("");
+  $(".task-errors").html("");

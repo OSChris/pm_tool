@@ -1,0 +1,14 @@
+$("##{dom_id(@task)}").remove();
+- if @task.status == true
+  $("#completes").append("#{ j render partial: "/tasks/task", locals: { task: @task } }");
+  $("#editTask").modal("hide");
+  $("##{dom_id(@task)} .task-title").html($("#edit-task-title").val());
+  $("##{dom_id(@task)} .task-body").html("<p>" + $("#edit-task-body").val() + "</p>");
+  $("##{dom_id(@task)} .task-due-date").html($("#edit-task-due-date").val());
+
+- elsif @task.status == false
+  $("#incompletes").append("#{ j render partial: "/tasks/task", locals: { task: @task } }");
+  $("#editTask").modal("hide");
+  $("##{dom_id(@task)} .task-title").html($("#edit-task-title").val());
+  $("##{dom_id(@task)} .task-body").html("<p>" + $("#edit-task-body").val() + "</p>");
+  $("##{dom_id(@task)} .task-due-date").html($("#edit-task-due-date").val());

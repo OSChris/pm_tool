@@ -1,8 +1,8 @@
-Rails.application.routes.draw do
-
-  
+Rails.application.routes.draw do  
 
   devise_for :users
+
+  resources :tasks, only: [:edit, :update]
   
   resources :projects do 
     resources :favorites,       only: [:create, :destroy]

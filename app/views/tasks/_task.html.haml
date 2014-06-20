@@ -1,0 +1,13 @@
+%tr{id: dom_id(task)}
+  %td.task-title= task.title
+  %td.task-body= simple_format task.body
+  %td.task-due-date
+    Due on: #{task.due_date}
+  %td.task-actions
+    - if task.user == current_user
+      - if task.status == false
+        = button_to "Not Done", [@project, task, task: {status: true}], method: :patch, data: { confirm: "Are you sure you want to mark this done?"}, class: "btn btn-sm btn-default", remote: true
+      - else
+        = button_to "Done", [@project, task, task: {status: false}], method: :patch, data: { confirm: "Are you sure you want to mark this not done?"}, class: "btn btn-sm btn-success", remote: true
+      = button_to "Destroy", [@project, task], method: :delete, data: { confirm: "Are you sure you want to delete this task?" }, class: "btn btn-xs btn-danger", remote: true
+      = link_to "Edit", edit_task_path(task), data: { toggle: "modal", target: "#editTask" }, class: "btn btn-xs btn-info", remote: true
