@@ -7,35 +7,51 @@ class CommentsController < ApplicationController
   def create
     @comment = @discussion.comments.new(comment_params)
     @comment.user = current_user
-    if @comment.save
-      redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment posted!"
-    else
-      redirect_to project_discussion_path(@discussion.project, @discussion), alert: "Comment create failed :("
+    respond_to do |format|
+      if @comment.save
+        format.html { redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment posted!" }
+        format.js   { render }
+      else
+        format.html { redirect_to project_discussion_path(@discussion.project, @discussion), alert: "Comment create failed :(" }
+        format.js   { render }
+      end
     end
   end
 
   def edit
+    respond_to do |format|
+      format.html { render :edit}
+      format.js   { render }
+    end
   end
 
   def update
-    if current_user == @comment.user
-      if @comment.update_attributes(comment_params)
-        redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment updated."
+    respond_to do |format|
+      if current_user == @comment.user
+        if @comment.update_attributes(comment_params)
+          format.html { redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment updated." }
+          format.js   { render }
+        else
+          flash.now[:alert] = "Problem editing comment"
+          format.html { render :edit }
+          format.js   { render }
+        end
       else
-        flash.now[:alert] = "Problem editing comment"
-        render :edit
+        format.html { redirect_to project_discussion_path(@discussion.project, @discussion), alert: "That's not yours buster" }
       end
-    else
-      redirect_to project_discussion_path(@discussion.project, @discussion), alert: "That's not yours buster"
     end
   end
 
   def destroy
-    if current_user == @comment.user
-      @comment.destroy
-      redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment deleted."
-    else
-      redirect_to project_discussion_path(@discussion.project, @discussion), alert: "That's not yours buster"
+    respond_to do |format|
+      if current_user == @comment.user
+        @comment.destroy
+        format.html { redirect_to project_discussion_path(@discussion.project, @discussion), notice: "Comment deleted." }
+        format.js   { render }
+      else
+        format.html { redirect_to project_discussion_path(@discussion.project, @discussion), alert: "That's not yours buster" }
+        format.js   { render }
+      end
     end
   end
 

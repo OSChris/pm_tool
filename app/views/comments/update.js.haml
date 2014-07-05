@@ -1,0 +1,6 @@
+- if @comment.errors.any?
+  $("#edit-comment-errors").html("#{ j render partial: "shared/standard_errors", locals: { object: @comment } }");
+- else
+  $(".comment-body").html($("#edited-comment").val());
+  $("#comment-errors").html("");
+  $("#editComment").modal("hide");

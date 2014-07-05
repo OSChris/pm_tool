@@ -1,0 +1,8 @@
+.row.well{id: dom_id(comment)}
+  .comment-body= simple_format comment.body
+  .pull-right.teenyweeny
+    Posted by #{comment.user.name_display}
+    .clearfix
+      - if comment.user == current_user
+        = link_to "Edit", edit_discussion_comment_path(@discussion, comment), class: "btn btn-xs btn-info", data: { toggle: "modal", target: "#editComment" }, remote: true
+        = button_to "Destroy", [@discussion, comment], method: :delete, data: { confirm: "Delete comment?" }, class: "btn btn-danger btn-xs", remote: true

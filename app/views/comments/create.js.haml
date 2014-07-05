@@ -1,0 +1,6 @@
+- if @comment.errors.any?
+  $("#comment-errors").html("#{ j render partial: "shared/standard_errors", locals: { object: @comment } }")
+- else
+  $("#new-comment").val("");
+  $(".comments").append("#{ j render partial: "comments/comment", locals: { comment: @comment } }");
+  $("#comment-errors").html("");
